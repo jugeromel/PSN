@@ -16,7 +16,8 @@ O repositório está organizado da seguinte forma:
 # Código STATA para criação de variáveis ​​dummy /resultados ├── resultados_logit_depressao.csv 
 # Resultados do modelo Logit para análise de depressão ├── resultados_logit_outro_diagnostico.csv 
 # Resultados do modelo Logit para outros diagnósticos ├── figuras 
-# Gráficos e visualizações geradas durante a análise ├── descritivas_pns.xlsx # Tabelas de estatísticas descritivas exportadas para Excel
+# Gráficos e visualizações geradas durante a análise ├── descritivas_pns.xlsx 
+# Tabelas de estatísticas descritivas exportadas para Excel
 
 
 ## Descrição
