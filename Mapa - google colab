@@ -1,0 +1,48 @@
+import plotly.express as px
+import pandas as pd
+
+# Dados fornecidos
+dados = {
+    'GrandesRegioes': ['Norte', 'Nordeste', 'Sudeste', 'Sul', 'Centro-Oeste'],
+    'depressao_dummy': [936, 2301, 2288, 1732, 1075],
+    'outro_diagnostico_dummy': [405, 1419, 1306, 723, 582]
+}
+
+# Criar DataFrame
+df = pd.DataFrame(dados)
+
+# Mapear nomes das regiões para os códigos do IBGE (necessário para o mapa do Brasil)
+regioes_ibge = {
+    'Norte': '1',
+    'Nordeste': '2',
+    'Sudeste': '3',
+    'Sul': '4',
+    'Centro-Oeste': '5'
+}
+df['cod_regiao'] = df['GrandesRegioes'].map(regioes_ibge)
+
+# Criar mapa para depressão
+fig_depressao = px.choropleth(
+    df,
+    locations='cod_regiao',
+    geojson='https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/brazil-regions.geojson',
+    color='depressao_dummy',
+    hover_name='GrandesRegioes',
+    title='Distribuição de diagnósticos de depressão por região do Brasil',
+    color_continuous_scale='Blues'
+)
+fig_depressao.update_geos(fitbounds="locations", visible=False)
+fig_depressao.show()
+
+# Criar mapa para outras doenças mentais
+fig_outro_diag = px.choropleth(
+    df,
+    locations='cod_regiao',
+    geojson='https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/brazil-regions.geojson',
+    color='outro_diagnostico_dummy',
+    hover_name='GrandesRegioes',
+    title='Distribuição de outros diagnósticos de doenças mentais por região do Brasil',
+    color_continuous_scale='Greens'
+)
+fig_outro_diag.update_geos(fitbounds="locations", visible=False)
+fig_outro_diag.show()
