@@ -1,81 +1,63 @@
-# Análise de Dados SINASC - Efeitos do Zika na Taxa de Nascimentos
+# Análise de Dados PNS - Fatores Associados à Saúde Mental e Alimentação
 
-Este repositório contém os códigos e as análises realizadas a partir dos dados do **Sistema de Informações sobre Nascidos Vivos (SINASC)**, com o objetivo de estudar os **efeitos do Zika vírus na taxa de nascimentos** no Brasil. O projeto inclui manipulação de dados, modelagem estatística e visualização de resultados.
+Este repositório contém os códigos e as análises realizadas a partir dos dados da **Pesquisa Nacional de Saúde (PNS)**, com o objetivo de estudar os **fatores associados à saúde mental**, como **depressão** e **outros diagnósticos de doenças mentais**, bem como o impacto dos hábitos alimentares e dietas nas condições de saúde. A análise foi realizada utilizando **STATA** para manipulação de dados, modelagem estatística e visualização de resultados.
 
 ## Estrutura do Repositório
 
 O repositório está organizado da seguinte forma:
-/sinasc_data ├── sinasc_2015.dta # Dados de nascimentos em 2015 ├── sinasc_2016.dta 
-# Dados de nascimentos em 2016 ├── sinasc_cleaned.dta 
-# Dados tratados e preparados para análise ├── sinasc_zika_impact.dta 
-# Dados de impacto do Zika na taxa de nascimentos /notebooks ├── 01_eda_sinasc.ipynb 
-# Análise exploratória dos dados SINASC ├── 02_regressao_sinasc.ipynb 
-# Modelagem de regressão sobre os dados SINASC ├── 03_impacto_zika.ipynb 
-# Análise do impacto do Zika na taxa de nascimentos /results ├── resultados_logit.csv 
-# Resultados do modelo Logit para a análise de nascimentos ├── resultados_regressao.csv 
-# Resultados da regressão sobre a taxa de nascimentos ├── figuras 
-# Gráficos e visualizações geradas durante a análise
 
 
-## Descrição dos Arquivos
+/pns_data ├── pns_2019.dta # Dados da PNS 2019 tratados ├── pns_health_data.dta 
+# Dados sobre saúde mental e alimentação ├── pns_cleaned.dta 
+# Dados limpos e prontos para análise /stata_scripts ├── 01_eda_pns.do 
+# Código STATA para análise exploratória dos dados da PNS ├── 02_regressao_pns.do 
+# Código STATA para análise de regressão sobre fatores de saúde mental ├── 03_saude_mental.dta 
+# Código STATA para análise da relação entre saúde mental e alimentação ├── 04_dummy_variables.dta 
+# Código STATA para criação de variáveis ​​dummy /resultados ├── resultados_logit_depressao.csv 
+# Resultados do modelo Logit para análise de depressão ├── resultados_logit_outro_diagnostico.csv 
+# Resultados do modelo Logit para outros diagnósticos ├── figuras 
+# Gráficos e visualizações geradas durante a análise ├── descritivas_pns.xlsx # Tabelas de estatísticas descritivas exportadas para Excel
 
-### Dados
 
-- **sinasc_2015.dta**: Contém os dados de nascimentos no Brasil referentes ao ano de 2015.
-- **sinasc_2016.dta**: Contém os dados de nascimentos no Brasil referentes ao ano de 2016.
-- **sinasc_cleaned.dta**: Dados tratados e limpos, com remoção de valores ausentes e variáveis irrelevantes.
-- **sinasc_zika_impact.dta**: Dados relacionados ao impacto do Zika vírus sobre a taxa de nascimentos, com indicadores de áreas afetadas pela epidemia.
+## Descrição
 
-### Notebooks
+### Objetivo
 
-- **01_eda_sinasc.ipynb**: Realiza uma análise exploratória de dados (EDA) sobre os dados SINASC, incluindo visualizações como histogramas, boxplots e tabelas descritivas.
-- **02_regressao_sinasc.ipynb**: Contém o código para a modelagem de regressão, avaliando o impacto de variáveis como idade da mãe, raça e local de nascimento na taxa de nascimentos.
-- **03_impacto_zika.ipynb**: Foca especificamente na análise do impacto do Zika vírus nas taxas de nascimentos, incluindo regressões e modelos para entender a correlação entre a epidemia e os resultados de nascimento.
+Este projeto visa explorar dados da **PNS 2019** para entender as relações entre características socioeconômicas, comportamentais e alimentares com a **saúde mental** dos indivíduos. Em particular, estamos investigando a prevalência de **depressão**, **outros diagnósticos de doenças mentais** e as influências de uma **dieta saudável e não saudável**.
 
-### Resultados
+### Principais variáveis analisadas:
 
-- **resultados_logit.csv**: Arquivo contendo os resultados do modelo de regressão logística (logit) que estima a probabilidade de nascimentos com complicações associadas ao Zika.
-- **resultados_regressao.csv**: Resultados de regressões múltiplas, considerando as variáveis explicativas e a taxa de nascimentos.
-- **figuras**: Pasta com gráficos e visualizações geradas durante as análises, incluindo gráficos de dispersão, regressões e boxplots.
+- **Saúde mental**: Identificação de indivíduos com diagnóstico de **depressão** ou outros transtornos mentais.
+- **Hábitos alimentares**: Variáveis que indicam se o indivíduo segue uma dieta saudável ou não saudável, como consumo de **feijão**, **verduras**, **carne vermelha**, **frango**, **peixe**, entre outros.
+- **Variáveis sociodemográficas**: Como **idade**, **sexo**, **renda**, **localização (urbano ou rural)**, e **raça**.
+- **Análises realizadas**:
+  - Modelos de **regressão logística (logit)** para avaliar os fatores associados à **depressão** e **outros diagnósticos**.
+  - Análise de variáveis **dummies** para características como **sexo**, **renda**, e **localização**.
 
-## Requisitos
+### Scripts STATA
 
-Para executar os códigos e realizar as análises, você precisa ter os seguintes pacotes instalados:
+1. **`01_eda_pns.do`**: Realiza uma análise exploratória dos dados da PNS, incluindo a limpeza de dados e a criação de variáveis dummies para as categorias de interesse.
+2. **`02_regressao_pns.do`**: Executa modelos de regressão para avaliar os fatores associados à **depressão** e outros **diagnósticos de doenças mentais**.
+3. **`03_saude_mental.dta`**: Código para a análise dos hábitos alimentares em relação à saúde mental dos indivíduos.
+4. **`04_dummy_variables.dta`**: Gera variáveis dummies para facilitar a análise de grupos categóricos.
 
-- **Python** (versão 3.6 ou superior)
-  - `pandas`
-  - `numpy`
-  - `matplotlib`
-  - `seaborn`
-  - `statsmodels`
-  - `scikit-learn`
-  - `jupyter`
-- **STATA** (para manipulação de dados `.dta` e execução de scripts STATA)
-- **R** (caso você tenha scripts adicionais de análise estatística)
+### Análises e Resultados
 
-## Como Executar os Códigos
+Os resultados de regressões logísticas e estatísticas descritivas são exportados para **arquivos CSV** e **Excel**, incluindo estatísticas como **média de renda** por grupo de saúde mental, e distribuições de diagnóstico por **sexo** e **localização geográfica**.
 
-1. **Baixe os dados**: Carregue as bases de dados SINASC (disponíveis na pasta `sinasc_data`).
-2. **Execute a Análise Exploratória (EDA)**: Abra o notebook `01_eda_sinasc.ipynb` e execute as células para começar a análise exploratória.
-3. **Rodar Modelos de Regressão**: Acesse o notebook `02_regressao_sinasc.ipynb` para aplicar modelos de regressão e avaliar as variáveis que impactam a taxa de nascimentos.
-4. **Analisar Impacto do Zika**: Abra o notebook `03_impacto_zika.ipynb` para entender como a epidemia de Zika afetou a taxa de nascimentos, com base nos dados regionais.
-5. **Revisar Resultados**: Os resultados das análises e modelos estarão na pasta `/results`, onde você pode visualizar as tabelas e gráficos gerados.
+## Como rodar os códigos
+
+1. **Carregar os dados**: Execute o código `use "C:\caminho\para\pns_data.dta", clear` para carregar o arquivo de dados no STATA.
+2. **Executar as análises**: Rode os scripts **STATA** para realizar análises descritivas, regressões e exportação de resultados.
+3. **Interpretação dos resultados**: Os resultados dos modelos logit serão gerados nos arquivos `resultados_logit_depressao.csv`, `resultados_logit_outro_diagnostico.csv`, entre outros.
 
 ## Contribuições
 
-Contribuições para melhorar o código e os resultados são bem-vindas! Se você deseja contribuir, siga as etapas abaixo:
-
-1. Faça um fork deste repositório.
-2. Crie uma nova branch (`git checkout -b minha-nova-branch`).
-3. Realize as alterações necessárias e faça um commit (`git commit -m 'Adicionando novas análises'`).
-4. Envie a sua branch para o repositório remoto (`git push origin minha-nova-branch`).
-5. Abra um pull request para que possamos revisar as mudanças.
+Se você quiser contribuir com este projeto, fique à vontade para fazer **fork**, **criar issues** e enviar **pull requests**. Agradecemos qualquer feedback e colaboração!
 
 ## Licença
 
-Este repositório está licenciado sob a **MIT License** - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
----
+Este projeto está licenciado sob a **Licença MIT** - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 **Contato:**
 - Nome: Juliana Geromel
