@@ -1,0 +1,39 @@
+use "C:\Users\marci\OneDrive\Documentos\mestrado_pns\pns2019_dummy.dta", clear
+
+
+
+**# modelo logit pra depressao
+
+logit depressao_dummy health_diet unhealth_diet idade urb_rur_dummy raca_dummy renda_dummy sex_dummy, vce(robust)
+
+esttab using "resultados_logit_depressao_.csv", replace label b(%9.3f) se(%9.3f) 
+
+* Interpretação dos odds ratios
+logit, or
+
+esttab using "resultados_logit_depressao_odds.csv", replace label b(%9.3f) se(%9.3f) eform
+
+*logit para variavel ordinal
+ologit depressao_likert health_diet unhealth_diet idade urb_rur_dummy raca_dummy renda_dummy sex_dummy
+
+*salvando
+esttab using "resultados_ologit_depressao_likert.csv", replace label b(%9.3f) se(%9.3f) eform
+
+
+
+**# logit para outro diagnostico de doença mental
+
+logit outro_diagnostico_dummy health_diet unhealth_diet idade urb_rur_dummy raca_dummy renda_dummy sex_dummy, vce(robust)
+
+esttab using "resultados_logit_outra doenca.csv", replace label b(%9.3f) se(%9.3f) 
+
+
+* Interpretação dos odds ratios
+logit, or
+
+esttab using "resultados_logit_outra doenca_odds.csv", replace label b(%9.3f) se(%9.3f) eform
+
+*logit para varivel ordinal
+ologit outro_likert health_diet unhealth_diet idade urb_rur_dummy raca_dummy renda_dummy sex_dummy
+
+esttab using "resultados_ologit_outra doenca_likert.csv", replace label b(%9.3f) se(%9.3f) eform
