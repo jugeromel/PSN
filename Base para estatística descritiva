@@ -1,0 +1,37 @@
+use "C:\Users\marci\OneDrive\Documentos\mestrado_pns\pns2019_tratada.dta", clear
+
+*apagando variaveis que nao vou utilizar
+keep v0025a v00291 peso_morador_selec UF Capital GrandesRegioes Sit_Urbano_Rural Sexo faixa_idade idade Raca race rend_per_capita renda Q014P depressao Q014Q depressao_terapia Q014R depressao_medicacao Q014S depressao_alternativa Q014T depressao_likert Q015P outro_diagnostico Q015Q outro_terapia Q015R outro_medicacao Q015S outro_alternativa Q015T outro_likert feijao verdura carne_vermelha frango peixe frutas refri doces lanches_rapidos health_diet unhealth_diet
+
+**# criando as dummy separadas de sexo
+gen sexo_masc = (Sexo == 1)   
+gen sexo_fem = (Sexo == 2)  
+
+*dummy de sexo 1 para mulher 
+gen sex_dummy = (Sexo == 2)
+
+*gerando dummy de raça, branco e amarelo == 1, tirando o missing
+gen raca_dummy = (race == 1 | race == 3) if race != 9
+
+* gerando dummy de situação urbano ou rural urbano ==1
+
+gen  urb_rur_dummy = (Sit_Urbano_Rural == 1) 
+
+*dummy de renda <= 1 salario minimo == 1 
+
+gen renda_dummy = (renda == 1 |  renda == 2| renda == 3)
+
+*dummy das dependentes
+gen depressao_dummy = (depressao == 1)   
+gen depressao_terapia_dummy = (depressao_terapia == 1)   
+gen depressao_medicacao_dummy = (depressao_medicacao == 1)   
+gen depressao_alternativa_dummy = (depressao_alternativa == 1)   
+gen outro_diagnostico_dummy = (outro_diagnostico == 1)   
+gen outro_terapia_dummy = (outro_terapia == 1)   
+gen outro_medicacao_dummy = (outro_medicacao == 1)   
+gen outro_alternativa_dummy = (outro_alternativa == 1)  
+
+*só vale se fazer a soma
+*gen sex_ratio =  sexo_masc/sexo_fem
+
+save "C:\Users\marci\OneDrive\Documentos\mestrado_pns\pns2019_dummy.dta", replace
