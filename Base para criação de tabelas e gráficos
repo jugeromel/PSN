@@ -1,0 +1,102 @@
+use "C:\Users\marci\OneDrive\Documentos\mestrado_pns\pns2019_dummy.dta", clear
+
+**# Estatística descritiva - explorando as variaveis
+
+generate renda_reais = .
+
+* Atribua os valores reais para cada faixa
+replace renda_reais = 249.50   if renda == 1
+replace renda_reais = 499.00   if renda == 2
+replace renda_reais = 998.00   if renda == 3
+replace renda_reais = 1996.00  if renda == 4
+replace renda_reais = 2994.00  if renda == 5
+replace renda_reais = 4990.00  if renda == 6
+replace renda_reais = 6000.00  if renda == 7
+
+summarize renda_reais
+tabulate renda renda_reais
+
+* renda e depressao
+tabulate renda depressao_dummy, row
+
+tab renda outro_diagnostico_dummy, row
+
+tabulate GrandesRegioes depressao_dummy outro_diagnostico_dummy, row
+
+**# fazendo tabelas
+
+*renda do povo depressivo
+table depressao_dummy, statistic(mean renda_reais)
+collect: table depressao_dummy, statistic(mean renda_reais)
+collect export "descritiva1.xlsx", as(xlsx) replace
+
+*renda do povo com outro diagnostico de doença mental
+table outro_diagnostico_dummy, statistic(mean renda_reais)
+collect: table outro_diagnostico_dummy, statistic(mean renda_reais)
+collect export "descritiva2.xlsx", as(xlsx) replace
+
+
+*tem depressao ou outro diagnostico
+
+tabulate Capital if depressao_dummy == 1 | outro_diagnostico_dummy, sort
+
+table Capital sex_dummy, statistic(sum depressao_dummy) statistic(sum outro_diagnostico_dummy)
+collect: table Capital sex_dummy, statistic(sum depressao_dummy) statistic(sum outro_diagnostico_dummy)
+collect export "descritiva3.xlsx", as(xlsx) replace
+
+
+*sexo e renda
+tabulate sex_dummy if depressao_dummy == 1 | outro_diagnostico_dummy, sort
+
+table GrandesRegioes, statistic(sum depressao_dummy) statistic(sum outro_diagnostico_dummy) 
+collect: table GrandesRegioes, statistic(sum depressao_dummy) statistic(sum outro_diagnostico_dummy) 
+collect export "descritiva4_0.xlsx", as(xlsx) replace
+
+
+table Capital, statistic(sum depressao_dummy) statistic(sum outro_diagnostico_dummy) 
+collect: table Capital, statistic(sum depressao_dummy) statistic(sum outro_diagnostico_dummy) 
+collect export "descritiva4_1.xlsx", as(xlsx) replace
+
+table GrandesRegioes sex_dummy, statistic(sum depressao_dummy) statistic(sum outro_diagnostico_dummy) statistic(mean renda_reais)
+collect: table GrandesRegioes sex_dummy, statistic(sum depressao_dummy) statistic(sum outro_diagnostico_dummy) statistic(mean renda_reais)
+collect export "descritiva4.xlsx", as(xlsx) replace
+
+table depressao_dummy sex_dummy 
+collect: table depressao_dummy sex_dummy
+collect export "descritiva5.xlsx", as(xlsx) replace
+
+table outro_diagnostico_dummy sex_dummy
+collect: table outro_diagnostico_dummy sex_dummy
+collect export "descritiva6.xlsx", as(xlsx) replace
+
+**# medicação terapia alternativa
+
+table sex_dummy, statistic(sum depressao_medicacao_dummy) statistic(sum depressao_terapia_dummy) statistic(sum depressao_alternativa_dummy)
+collect: table sex_dummy, statistic(sum depressao_medicacao_dummy) statistic(sum depressao_terapia_dummy) statistic(sum depressao_alternativa_dummy)
+collect export "descritiva7.xlsx", as(xlsx) replace
+
+*outro diagnostico
+table sex_dummy, statistic(sum outro_medicacao_dummy) statistic(sum outro_terapia_dummy) statistic(sum outro_alternativa_dummy)
+collect: table sex_dummy, statistic(sum outro_medicacao_dummy) statistic(sum outro_terapia_dummy) statistic(sum outro_alternativa_dummy)
+collect export "descritiva8.xlsx", as(xlsx) replace
+
+
+table sex_dummy, statistic(sum depressao_dummy) statistic(sum outro_diagnostico_dummy)
+collect: table sex_dummy, statistic(sum depressao_dummy) statistic(sum outro_diagnostico_dummy)
+collect export "descritiva9.xlsx", as(xlsx) replace
+
+
+
+**# sobre a dieta
+*aqui to analisando as pessoas que tem depressao ou outro diagnostico, se a dieta delas é saudavel ou nao
+table health_diet sex_dummy, statistic(sum depressao_dummy) statistic (sum outro_diagnostico_dummy)
+collect: table health_diet sex_dummy, statistic(sum depressao_dummy) statistic (sum outro_diagnostico_dummy)
+collect export  "descritiva10.xlsx", as(xlsx) replace
+
+table depressao_dummy sex_dummy, statistic(mean feijao) statistic(mean verdura) statistic(mean carne_vermelha) statistic(mean frango) statistic(mean peixe) statistic(mean frutas) statistic(mean refri) statistic(mean doces) statistic(mean lanches_rapidos)
+collect: table depressao_dummy sex_dummy, statistic(mean feijao) statistic(mean verdura) statistic(mean carne_vermelha) statistic(mean frango) statistic(mean peixe) statistic(mean frutas) statistic(mean refri) statistic(mean doces) statistic(mean lanches_rapidos)
+collect export "descritiva11.xlsx", as(xlsx) replace
+
+table outro_diagnostico_dummy sex_dummy, statistic(mean feijao) statistic(mean verdura) statistic(mean carne_vermelha) statistic(mean frango) statistic(mean peixe) statistic(mean frutas) statistic(mean refri) statistic(mean doces) statistic(mean lanches_rapidos)
+collect: table outro_diagnostico_dummy sex_dummy, statistic(mean feijao) statistic(mean verdura) statistic(mean carne_vermelha) statistic(mean frango) statistic(mean peixe) statistic(mean frutas) statistic(mean refri) statistic(mean doces) statistic(mean lanches_rapidos)
+collect export "descritiva12.xlsx", as(xlsx) replace
