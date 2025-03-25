@@ -1,0 +1,276 @@
+use "C:\Users\marci\OneDrive\Documentos\mestrado_pns\pns2019.dta", clear
+
+destring v0025a, replace ignore("N/A" "não respondeu")
+keep if v0025a == 1
+destring v00291, replace ignore("N/A" "não respondeu")
+gen peso_morador_selec = v00291 * (94114 / 168426190)
+drop if missing(peso_morador_selec)
+summarize peso_morador_selec
+
+**# minhas variaveis 
+
+**# saude mental
+
+* Diagnóstico autorreferido de depressão - Q014P
+destring q092, replace ignore("N/A" "não respondeu")
+gen Q014P = cond(q092 == 1, 1, 2)
+label define Q014P_lbl 1 "Sim" 2 "Não"
+label values Q014P Q014P_lbl
+summarize Q014P
+gen depressao = Q014P
+
+*Por causa da depressão Faz psicoterapia 
+
+destring q09605, replace ignore("N/A" "não respondeu")
+gen Q014Q = cond(q09605 == 1, 1, 2)
+label define Q014Q_lbl 1 "Sim" 2 "Não"
+label values Q014Q Q014Q_lbl
+summarize Q014Q
+gen depressao_terapia = Q014Q
+
+*Por causa da depressão Toma medicamentos
+
+destring q09606, replace ignore("N/A" "não respondeu")
+gen Q014R = cond(q09606 == 1, 1, 2)
+label define Q014R_lbl 1 "Sim" 2 "Não"
+label values Q014R Q014R_lbl
+summarize Q014R
+gen depressao_medicacao = Q014R
+
+*Por causa da depressão Faz uso de acupuntura, plantas medicinais e fitoterapia, homeopatia, meditação, yoga, tai chi chuan, liang gong ou alguma outra prática integrativa e complementar 
+destring q09607, replace ignore("N/A" "não respondeu")
+gen Q014S = cond(q09607 == 1, 1, 2)
+label define Q014S_lbl 1 "Sim" 2 "Não"
+label values Q014S Q014S_lbl
+summarize Q014S
+gen depressao_alternativa = Q014S
+
+*Em geral, em que grau a depressão limita as suas atividades habituais (tais como trabalhar, realizar afazeres domésticos, etc.)? 
+destring q109, replace ignore("N/A" "não respondeu")
+gen Q014T = .
+replace Q014T = 1 if q109 == 1
+replace Q014T = 2 if q109 == 2
+replace Q014T = 3 if q109 == 3
+replace Q014T = 4 if q109 == 4
+replace Q014T = 5 if q109 == 5
+label define Q014T_lbl 1 "Não limita" 2 "Um pouco" 3 "Moderadamente" 4 "Intensamente" 5 "Muito intensamente"
+label values Q014T Q014T_lbl
+
+summarize Q014T
+gen depressao_likert = Q014T
+
+
+* Diagnóstico autorreferido de outra doença mental - Q015P
+destring q11007, replace ignore("N/A" "não respondeu")
+destring q11008, replace ignore("N/A" "não respondeu")
+destring q11009, replace ignore("N/A" "não respondeu")
+destring q11010, replace ignore("N/A" "não respondeu")
+gen Q015P = cond(q11007 == 1 | q11008 == 1 | q11009 == 1 | q11010 == 1, 1, 2)
+label define Q015P_lbl 1 "Sim" 2 "Não"
+label values Q015P Q015P_lbl
+summarize Q015P
+gen outro_diagnostico = Q015P
+
+*Por causa da doença mental faz psicoterapia 
+destring q11405, replace ignore("N/A" "não respondeu")
+gen Q015Q = cond(q11405 == 1, 1, 2)
+label define Q015Q_lbl 1 "Sim" 2 "Não"
+label values Q015Q Q015Q_lbl
+summarize Q015Q
+gen outro_terapia = Q015Q
+
+*Por causa da doença mental usa medicamentos ou injeções 
+
+destring q11406, replace ignore("N/A" "não respondeu")
+gen Q015R = cond(q11406 == 1, 1, 2)
+label define Q015R_lbl 1 "Sim" 2 "Não"
+label values Q015R Q015R_lbl
+summarize Q015R
+gen outro_medicacao = Q015R
+
+*Por causa da depressão Faz uso de acupuntura, plantas medicinais e fitoterapia, homeopatia, meditação, yoga, tai chi chuan, liang gong ou alguma outra prática integrativa e complementar 
+destring q11407, replace ignore("N/A" "não respondeu")
+gen Q015S = cond(q11407 == 1, 1, 2)
+label define Q015S_lbl 1 "Sim" 2 "Não"
+label values Q015S Q015S_lbl
+summarize Q015S
+gen outro_alternativa = Q015S
+
+*Em geral, em que grau a depressão limita as suas atividades habituais (tais como trabalhar, realizar afazeres domésticos, etc.)? 
+destring q115, replace ignore("N/A" "não respondeu")
+gen Q015T = .
+replace Q015T = 1 if q115 == 1
+replace Q015T = 2 if q115 == 2
+replace Q015T = 3 if q115 == 3
+replace Q015T = 4 if q115 == 4
+replace Q015T = 5 if q115 == 5
+label define Q015T_lbl 1 "Não limita" 2 "Um pouco" 3 "Moderadamente" 4 "Intensamente" 5 "Muito intensamente"
+label values Q015T Q015T_lbl
+
+summarize Q015T
+gen outro_likert = Q015T
+
+**# saúde alimentar
+destring p006, replace ignore("N/A" "não respondeu")
+destring p00901, replace ignore("N/A" "não respondeu")
+destring p01101, replace ignore("N/A" "não respondeu")
+destring p013, replace ignore("N/A" "não respondeu")
+destring p015, replace ignore("N/A" "não respondeu")
+destring p018, replace ignore("N/A" "não respondeu")
+
+gen feijao = .
+gen verdura = .
+gen carne_vermelha = .
+gen frango = .
+gen peixe = .
+gen frutas = .
+
+replace feijao = p006  
+replace verdura = p00901 
+replace carne_vermelha = p01101
+replace frango = p013
+replace peixe = p015
+replace frutas = p018
+ 
+*nao saudaveis
+destring p02002, replace ignore("N/A" "não respondeu")
+destring p02501, replace ignore("N/A" "não respondeu")
+destring p02602, replace ignore("N/A" "não respondeu")
+
+gen refri = .
+gen doces = .
+gen lanches_rapidos = .
+
+replace refri = p02002
+replace doces = p02501
+replace lanches_rapidos = p02602
+
+gen health_diet = 0  // Inicialmente assume dieta não saudável
+replace health_diet = 1 if feijao >= 3 & verdura >= 3 & (frango + carne_vermelha + peixe) >= 3 & frutas >= 3
+
+gen unhealth_diet = 0  // Inicialmente assume dieta saudável
+replace unhealth_diet = 1 if refri >= 3 | doces >= 3 | lanches_rapidos >= 3
+
+**# informacoes gerais
+
+**# situação rural
+destring v0026, replace ignore("N/A" "não respondeu")
+rename v0026 Sit_Urbano_Rural
+*nao precisa disso pq deixa em dummy
+*recode Sit_Urbano_Rural (1="urbano") (2="rural"), gen(Sit_Urbano_Rural_label)
+*label define urbano_rural 1 "urbano" 2 "rural"
+*label values Sit_Urbano_Rural urbano_rural
+tab Sit_Urbano_Rural
+
+*sexo
+destring c006, replace ignore("N/A" "não respondeu")
+rename c006 Sexo
+*nao precisa disso pq deixa em dummy
+*recode Sexo (1="Masculino") (2="Feminino"), gen(Sexo_label)
+*label define sexo_lbl 1 "Masculino" 2 "Feminino"
+*label values Sexo sexo_lbl
+tab Sexo
+
+*estados
+rename v0001 UF
+label define uf_lbl 11 "Rondônia" 12 "Acre" 13 "Amazonas" 14 "Roraima" 15 "Pará" 16 "Amapá" 17 "Tocantins" ///
+21 "Maranhão" 22 "Piauí" 23 "Ceará" 24 "Rio Grande do Norte" 25 "Paraíba" 26 "Pernambuco" 27 "Alagoas" ///
+28 "Sergipe" 29 "Bahia" 31 "Minas Gerais" 32 "Espírito Santo" 33 "Rio de Janeiro" 35 "São Paulo" ///
+41 "Paraná" 42 "Santa Catarina" 43 "Rio Grande do Sul" 50 "Mato Grosso do Sul" 51 "Mato Grosso" 52 "Goiás" 53 "Distrito Federal"
+label values UF
+tab UF
+
+*grandes regioes
+gen GrandesRegioes = .
+replace GrandesRegioes = 1 if inlist(UF, 11,12,13,14,15,16,17) // Norte
+replace GrandesRegioes = 2 if inlist(UF, 21,22,23,24,25,26,27,28,29) // Nordeste
+replace GrandesRegioes = 3 if inlist(UF, 31,32,33,35) // Sudeste
+replace GrandesRegioes = 4 if inlist(UF, 41,42,43) // Sul
+replace GrandesRegioes = 5 if inlist(UF, 50,51,52,53) // Centro-Oeste
+label define regiao_lbl 1 "Norte" 2 "Nordeste" 3 "Sudeste" 4 "Sul" 5 "Centro-Oeste"
+label values GrandesRegioes regiao_lbl
+tab GrandesRegioes
+
+*capitais
+gen Capital = .
+replace Capital = 1 if UF == 11 // Porto Velho
+replace Capital = 2 if UF == 14 // Boa Vista
+replace Capital = 3 if UF == 12 // Rio Branco
+replace Capital = 4 if UF == 13 // Manaus
+replace Capital = 5 if UF == 15 // Belém
+replace Capital = 6 if UF == 16 // Macapá
+replace Capital = 7 if UF == 17 // Palmas
+replace Capital = 8 if UF == 21 // São Luís
+replace Capital = 9 if UF == 22 // Teresina
+replace Capital = 10 if UF == 23 // Fortaleza
+replace Capital = 11 if UF == 24 // Natal
+replace Capital = 12 if UF == 25 // João Pessoa
+replace Capital = 13 if UF == 26 // Recife
+replace Capital = 14 if UF == 27 // Maceió
+replace Capital = 15 if UF == 28 // Aracaju
+replace Capital = 16 if UF == 29 // Salvador
+replace Capital = 17 if UF == 31 // Belo Horizonte
+replace Capital = 18 if UF == 32 // Vitória
+replace Capital = 19 if UF == 33 // Rio de Janeiro
+replace Capital = 20 if UF == 35 // São Paulo
+replace Capital = 21 if UF == 41 // Curitiba
+replace Capital = 22 if UF == 42 // Florianópolis
+replace Capital = 23 if UF == 43 // Porto Alegre
+replace Capital = 24 if UF == 50 // Campo Grande
+replace Capital = 25 if UF == 51 // Cuiabá
+replace Capital = 26 if UF == 52 // Goiânia
+replace Capital = 27 if UF == 53 // Brasília
+label define capital_lbl 1 "Porto Velho" 2 "Boa Vista" 3 "Rio Branco" 4 "Manaus" 5 "Belém" 6 "Macapá" 7 "Palmas" ///
+8 "São Luís" 9 "Teresina" 10 "Fortaleza" 11 "Natal" 12 "João Pessoa" 13 "Recife" 14 "Maceió" 15 "Aracaju" 16 "Salvador" ///
+17 "Belo Horizonte" 18 "Vitória" 19 "Rio de Janeiro" 20 "São Paulo" 21 "Curitiba" 22 "Florianópolis" 23 "Porto Alegre" ///
+24 "Campo Grande" 25 "Cuiabá" 26 "Goiânia" 27 "Brasília"
+label values Capital capital_lbl
+tab Capital
+
+*faixa etária
+destring c008, replace ignore("N/A" "não respondeu")
+gen faixa_idade = .
+replace faixa_idade = 1 if c008 >= 18 & c008 < 30
+replace faixa_idade = 2 if c008 >= 30 & c008 < 45
+replace faixa_idade = 3 if c008 >= 45 & c008 < 60
+replace faixa_idade = 4 if c008 >= 60 & c008 < 75
+replace faixa_idade = 5 if c008 >= 75
+label define idade_lbl 1 "18 a 29 anos" 2 "30 a 44 anos" 3 "45 a 59 anos" 4 "60 a 74 anos" 5 "75 anos ou mais"
+label values faixa_idade idade_lbl
+tab faixa_idade
+rename c008 idade
+
+*raça
+destring c009, replace ignore("N/A" "não respondeu")
+gen Raca = .
+replace Raca = 1 if c009 == 1
+replace Raca = 2 if c009 == 2
+replace Raca = 3 if c009 == 4
+label define raca_lbl 1 "Branca" 2 "Preta" 3 "Parda"
+label values Raca raca_lbl
+tab Raca
+rename c009 race
+
+*renda per capita
+destring vdf004, replace ignore("N/A" "não respondeu")
+gen rend_per_capita = .
+replace rend_per_capita = 1 if inlist(vdf004, 1,2)
+replace rend_per_capita = 2 if vdf004 == 3
+replace rend_per_capita = 3 if vdf004 == 4
+replace rend_per_capita = 4 if vdf004 == 5
+replace rend_per_capita = 5 if vdf004 > 5
+label define renda_lbl 1 "Até 1/2 SM" 2 "1/2 até 1 SM" 3 "1 até 2 SM" 4 "2 até 3 SM" 5 "Mais de 3 SM"
+label values rend_per_capita renda_lbl
+tab rend_per_capita
+
+rename vdf004 renda
+
+
+*ordenando variaveis
+order v0025a v00291 peso_morador_selec UF Capital GrandesRegioes Sit_Urbano_Rural Sexo faixa_idade idade Raca race rend_per_capita renda Q014P depressao Q014Q depressao_terapia Q014R depressao_medicacao Q014S depressao_alternativa Q014T depressao_likert Q015P outro_diagnostico Q015Q outro_terapia Q015R outro_medicacao Q015S outro_alternativa Q015T outro_likert feijao verdura carne_vermelha frango peixe frutas refri doces lanches_rapidos health_diet unhealth_diet
+
+save "C:\Users\marci\OneDrive\Documentos\mestrado_pns\pns2019_tratada.dta", replace
+
+*apagando as variaveis que nao preciso
+
+
